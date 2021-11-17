@@ -80,7 +80,7 @@ ggplot(mtcars, aes(-mpg, wt)) +
 ### Ein deböB Workshop von Samuel Merk - PH Karlsruhe
 
 ---  
-`r typed::typed(c("Hallo und 💚lich Willkommen!", "Alle Materialen - auch diese Folien - findet ihr auf github", "Link zu den Materialien https://bit.ly/merk017 ...", "link zu den Folien: https://bit.ly/merk017"), typeSpeed = 80, backSpeed = 20, backDelay = 3000, loop = T, contentType = "html")` 
+`r typed::typed(c("Hallo und 💚lich Willkommen!", "Alle Materialen - auch diese Folien - findet ihr auf github", "Link zu den Materialien https://bit.ly/merk016 ...", "link zu den Folien: https://bit.ly/merk017"), typeSpeed = 80, backSpeed = 20, backDelay = 3000, loop = T, contentType = "html")` 
 
 ---
 ## Mein Plan für heute:
