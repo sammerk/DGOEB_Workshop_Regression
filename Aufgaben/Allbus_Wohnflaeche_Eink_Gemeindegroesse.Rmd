@@ -1,0 +1,50 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(exams)
+
+```    
+
+Question
+========
+Der Allbus Datensatz (Kummulation 1980-2014) enthält unter vielen anderen die Variablen
+
+* Wohnfläche in Quadratmetern (v1368)
+* Nettoeinkommen (v913)
+* Gemeindegröße (v1376; diese Variable wurde zu ordinalen Stufen zusammengefasst, damit die Daten keine Reidentifikation der Teilnehmer\*innen erlauben)
+
+Eine Forscherin möchte untersuchen ob die Gemeindegröße nicht einen Supressor des Zusammenhangs von Einkommen und Wohnfläche darstellt, wobei Sie die Wohnfläche als abhängige Variable und v1376 als metrische Variable konzeptualisiert.
+Bestimmen Sie die Koeffizienten der entsprechenden __standardisierten__ Regressionsmodelle und beantworten Sie folgende Frage
+
+Answerlist
+----------
+ \item Die Variable `Gemeindegröße` ist ein (deutlicher) Supressor des Zusammenhangs von `Wohnfläche` und `Einkommen`
+ \item Der Zusammenhang von `Wohnfläche` und `Einkommen` ist (deutlich) durch die Variable `Gemeindegröße` konfundiert
+ \item Nach Kontrolle der Gemeindegröße liegt ein kleiner Effekt des Einkommens auf die Wohnfläche vor
+ \item Der Zusammenhang von `Wohnfläche` und `Einkommen` ist größer als der zwischen `Gemeindegröße`und `Einkommen`
+ \item Der Zusammenhang von `Wohnfläche` und `Einkommen` ist kleiner als der zwischen `Gemeindegröße`und `Einkommen`
+ \item Die Zusammenhänge von `Wohnfläche` und `Einkommen` sowie `Gemeindegröße`und `Einkommen` können nicht verglichen werden
+ \item Die Korrelation zwischen `Wohnfläche` und `Einkommen` beträgt
+
+Solution
+========
+Haben die den Allbusdatensatz heruntergeladen, importiert und als Objekt `Allbus_kum` angelegt, erhalten Sie mit folgendem Code die Lösung
+```{r , eval = F}
+library(stargazer)  # Kreiert schöne Regressionstabellen
+
+# Regressionsmodelle als Objekte speichern
+mod1 <- lm(scale(v1368) ~ scale(v1376), data = Allbus_kum)
+mod2 <- lm(scale(v1368) ~ scale(v913), data = Allbus_kum)
+mod3 <- lm(scale(v1368) ~ scale(v1376) + scale(v913), data = Allbus_kum)
+
+# Evtl. schöne Regressiontabelle ausgeben lassen
+
+stargazer(mod1, mod2, mod3, type = "text")
+```
+
+
+Meta-information
+================
+exname: Supressorsuche Allbus
+extype: cloze
+exsolution: 001|010|0.160
+exclozetype: mchoice|schoice|num
+extol: 0.05

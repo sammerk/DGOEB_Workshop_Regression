@@ -1,0 +1,39 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Question
+========
+Mit folgendem Code können Sie PISA-Daten (2015) für Deutschland herunterladen:
+```{r, eval=FALSE}
+library(haven)
+data <- read_spss("https://raw.githubusercontent.com/sammerk/did_data/master/kd181.sav")
+```
+Alternativ können Sie die URL auch in Ihren Browser eingeben, die Datei speichern und anschließend in R oder SPSS öffnen.
+
+Der Datensatz enthält die drei Variablen `mathematikkompetenz`, `lesekompetenz` und  
+`soziooekonomischerstatus`.
+
+Prüfen Sie anhand geeigneter statistischer Modellierungen des Datensatzes folgende AUssagen und markieren Sie wahre. 
+
+Answerlist
+----------
+* Mathematik- und Lesekompetenz zeigen einen starken Zusammenhang
+* Der Zusammenhang zwischen der Mathematik- und Lesekompetenz ist deutlich durch den sozioökonomischen Status konfundiert.
+* Der sozioökonomischen Status stellt eine Supressorvariable des Zusammenhangs von Mathematik- und Lesekompetenz dar.
+* Die Daten (so wie sie vorliegen) sprechen nicht unbedingt für eine divergente Validierbarkeit des Konstruktes der Mathematikkompetenz 
+
+Solution
+========
+* TRUE 
+* FALSE
+* FALSE
+* TRUE
+
+Meta-information
+================
+exname: Linear regression
+extype: mchoice
+exsolution: 1001

@@ -1,0 +1,88 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(exams)
+d <- data.frame(Vorbereitungsaufwand = runif(180, 3, 60))
+a <- sample(c(4,2,9,12), 1)
+b <- sample(c(1), 1) * sample(c(0.0, 0.1, 0.3, 0.8), 1) # Möglichkeit Slope negativ zu randomisieren
+d$Klausurpunkte <- a + b * d$Vorbereitungsaufwand + rnorm(180, sd = 8.25)
+d$Klausurpunkte <- ifelse(d$Klausurpunkte > 0, d$Klausurpunkte, 0)
+write.csv(d, "regression.csv", row.names = FALSE, quote = FALSE)
+haven::write_sav(d, "regression.sav")
+
+m <- lm(Klausurpunkte ~ Vorbereitungsaufwand, data = d)
+intercept <- coef(m)[1]
+bhat <- coef(m)[2]
+bpvl <- summary(m)$coefficients[2, 4]
+bsol <- c(bpvl >= 0.05, (bpvl < 0.05) & (bhat > 0), (bpvl < 0.05) & (bhat < 0))
+
+m_stand <- lm(scale(Klausurpunkte) ~ scale(Vorbereitungsaufwand), data = d)
+bhat_stand <- coef(m_stand)[2] # = slope
+b0hat_stand <- coef(m_stand)[1] # = intercept
+bpvl_stand <- summary(m_stand)$coefficients[2, 4]
+bsol_stand <- c(bhat_stand < 0.05, (bhat_stand >= 0.05) & (bhat_stand < 0.2), (bhat_stand >= 0.2) & (bhat_stand < 0.35), (bhat_stand >= 0.35) )
+
+effektstärke <- if(bhat_stand < 0.06) "kein Effekt" else
+  if(bhat_stand < 0.2) "ein kleiner Effekt" else
+    if(bhat_stand < 0.4) "ein moderater Effekt" else "großer Effekt"
+```    
+
+Question
+========
+In folgendem Datensatz [regression.csv](regression.csv) oder [regression.sav](regression.sav) sind Daten gemäß dem Einführungsbeispiel des Erklärvideos für 180 Probandinnen enthalten. Führen Sie eine Regression gemäß des Modells $$Klausurpunkte_i = b_0 + b_1 \cdot Vorbereitungsaufwand_i + \epsilon_i$$
+durch und beantworten Sie die folgenden Fragen.
+
+Den Datensatz können Sie in R importieren, indem Sie in RStudio (lokal auf Ihrem Rechner) auf den Environmenttab klicken, dann auf "Import Dataset", dann "From Text (base)" und dann dem Dialog folgen. SOllte das nicht klappen ist das halb so wild - ich zeige Ihnen das in der Sitzung nochmals...
+
+Answerlist
+----------
+
+ \item Die Variable `Klausurpunkte` kann nach Cohen 1988 als nicht assoziiert mit `Vorbereitungsaufwand` gesehen werden (kein Effekt)
+ \item Die Variable `Klausurpunkte` kann nach Cohen 1988 als schwach assoziiert mit `Vorbereitungsaufwand` gesehen werden (schwacher Effekt)
+ \item Die Variable `Klausurpunkte` kann nach Cohen 1988 als moderat assoziiert mit `Vorbereitungsaufwand` gesehen werden (mittlerer Effekt)
+ \item Die Variable `Klausurpunkte` kann nach Cohen 1988 als stark assoziiert mit `Vorbereitungsaufwand` gesehen werden (starker Effekt)
+ \item Wie viele Punkte prädiziert das Modell für eine Studentengruppe die sich nicht auf die Klausur vorbereitet?
+ \item Wie viele Punkte prädiziert das Modell für eine Studentengruppe die sich 25h auf die Klausur vorbereitet?
+
+Solution
+========
+\
+```{r scatterplot, echo = FALSE, results = "hide", fig.height = 4.5, fig.width = 4.5, fig.path = "", fig.cap = ""}
+plot(Klausurpunkte ~ Vorbereitungsaufwand, data = d, main = "Darstellung der\nnicht-standardisierten Regression")
+abline(m)
+legend(if(bhat > 0) "topleft" else "topright", bty = "n",
+  paste0("b1 = ", fmt(bhat, 3)))
+
+plot(scale(Klausurpunkte) ~ scale(Vorbereitungsaufwand), data = d, main = "Darstellung der\nstandardisierten Regression")
+abline(m_stand)
+legend(if(bhat_stand > 0) "topleft" else "topright", bty = "n",
+  paste0("beta1 = ", fmt(bhat_stand, 3)))
+```
+
+Um dieses Modell zu generieren, können Sie folgenden R Code ausführen:
+```{r lm, results="hide", eval=FALSE}
+## data
+d <- read.csv("regression.csv")
+
+## nicht standardisierte regression
+m <- lm(y ~ x, data = d)
+summary(m)
+## Visualisierung
+plot(y ~ x, data = d)
+abline(m)
+
+## standardisierte regression
+m_stand <- lm(y ~ x, data = d)
+summary(m_stand)
+## Visualisierung
+plot(scale(y) ~ scale(x), data = d)
+abline(m_stand)
+```
+
+Da im Modell `m_stand` $\beta_1=$ `r fmt(bhat_stand, 3)` gilt, kann der Effekt als "`r effektstärke`" bewertet werden. Wichtig ist hier natürlich, dass Sie dazu das standardisierte Modell betrachten.
+
+Meta-information
+================
+exname: Linear regression
+extype: cloze
+exsolution: `r mchoice2string(bsol_stand)`|`r intercept`|`r intercept + 25*bhat`
+exclozetype: schoice|num|num
+extol: 0.05

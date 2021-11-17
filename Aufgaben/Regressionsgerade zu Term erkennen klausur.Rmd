@@ -1,0 +1,95 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r, Datengenese, echo = FALSE, message=FALSE}
+library(tidyverse)
+library(hrbrthemes)
+library(exams)
+
+b0 <- round(runif(1, 5,10), 1)
+b1 <- round(runif(1, -2.5, -0.5), 1)
+x  <- round(runif(1, 2, 8))
+
+random_letters <- sample(LETTERS[1:5], 5, replace = F)
+
+assign(paste("Regressionsgerade", random_letters[1], sep =" "), 
+                ggplot() + geom_abline(intercept = b0, slope = b1) + 
+                #theme_ipsum() + 
+                ggtitle(paste("Regressionsger.", random_letters[1], sep =" ")) + xlab("Prüfungsangst") + ylab("Prüfungsleistung") + 
+                xlim(0,10) + ylim(-5,20))
+assign(paste("Regressionsgerade", random_letters[2], sep =" "), 
+                ggplot() + geom_abline(intercept = b0 + sample(c(runif(1, 5, 10), runif(1, -10, -5)), 1), slope = b1 + sample(c(runif(1, 2, 4), runif(1, -4, -2)), 1)) + 
+                #theme_ipsum() + 
+                ggtitle(paste("Regressionsger.", random_letters[2], sep =" ")) + xlab("Prüfungsangst") + ylab("Prüfungsleistung") + 
+                xlim(0,10) + ylim(-5,20))
+assign(paste("Regressionsgerade", random_letters[3], sep =" "), 
+                ggplot() + geom_abline(intercept = b0 + sample(c(runif(1, 5, 10), runif(1, -10, -5)), 1), slope = b1 + sample(c(runif(1, 2, 4), runif(1, -4, -2)), 1)) + 
+                #theme_ipsum() + 
+                ggtitle(paste("Regressionsger.", random_letters[3], sep =" ")) + xlab("Prüfungsangst") + ylab("Prüfungsleistung") + 
+                xlim(0,10) + ylim(-5,20))
+assign(paste("Regressionsgerade", random_letters[4], sep =" "), 
+                ggplot() + geom_abline(intercept = b0 + sample(c(runif(1, 5, 10), runif(1, -10, -5)), 1), slope = b1 + sample(c(runif(1, 2, 4), runif(1, -4, -2)), 1)) + 
+                #theme_ipsum() + 
+                ggtitle(paste("Regressionsger.", random_letters[4], sep =" ")) + xlab("Prüfungsangst") + ylab("Prüfungsleistung") + 
+                xlim(0,10) + ylim(-5,20))
+assign(paste("Regressionsgerade", random_letters[5], sep =" "), 
+                ggplot() + geom_abline(intercept = b0 + sample(c(runif(1, 5, 10), runif(1, -10, -5)), 1), slope = b1 + sample(c(runif(1, 2, 4), runif(1, -4, -2)), 1)) + 
+                #theme_ipsum() + 
+                ggtitle(paste("Regressionsger.", random_letters[5], sep =" ")) + xlab("Prüfungsangst") + ylab("Prüfungsleistung") + 
+                xlim(0,10) + ylim(-5,20))
+```
+
+
+Question
+========
+Eines der folgenden Schaubilder stellt die Regressionsgleichung  
+
+_Prüfungsleistung~i~ = `r b0` + `r b1` $\cdot$ Prüfungsangst~i~_  
+
+dar. Bitte entscheiden Sie welches!
+
+```{r test, fig.cap = "", fig.path = "", echo = F, fig.width=2, fig.height = 2, fig.show='hold'}
+`Regressionsgerade A`
+`Regressionsgerade B`
+`Regressionsgerade C`
+```
+
+```{r test2, fig.cap = "", fig.path = "", echo = F, fig.width=2, fig.height = 2, fig.show='hold'}
+`Regressionsgerade D`
+`Regressionsgerade E`
+```
+
+
+
+Welche Aussagen sind korrekt?
+
+Answerlist
+----------
+* Schaubild A stellt die gegebene Regressionsgleichung graphisch dar.
+* Schaubild B stellt die gegebene Regressionsgleichung graphisch dar.
+* Schaubild C stellt die gegebene Regressionsgleichung graphisch dar.
+* Schaubild D stellt die gegebene Regressionsgleichung graphisch dar.
+* Schaubild E stellt die gegebene Regressionsgleichung graphisch dar.
+
+Solution
+========
+
+```{r, echo = FALSE, results = "asis"}
+solution <- if(random_letters[1] == "A") c(T,F,F,F,F) else
+                  if(random_letters[1] == "B") c(F,T,F,F,F) else
+                         if(random_letters[1] == "C") c(F,F,T,F,F) else
+                                if(random_letters[1] == "D") c(F,F,F,T,F) else c(F,F,F,F,T)
+answerlist(solution,
+           markup = "markdown")
+```
+
+  
+
+Meta-information
+================
+exname: Regressionsgerade zu Term erkennen
+extype: schoice
+exsolution: `r paste(as.numeric(solution), collapse = "")`
+exshuffle: 5

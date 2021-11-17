@@ -1,0 +1,30 @@
+```{r, Datengenese, echo = FALSE, message=FALSE}
+b0 <- round(runif(1, 20,30), 1)
+b1 <- round(runif(1, -2.5, -0.5), 1)
+x  <- round(runif(1, 2, 8))
+```
+
+
+Question
+========
+Eine Forscherin erhebt Daten zum Zusammenhang von Prüfungsangst und Prüfungsleistungen und erhält folgende Regressionsgleichung:  
+
+_Prüfungsleistung~i~ = `r b0` + `r b1` $\cdot$ Prüfungsangst~i~ + $\epsilon_i$_  
+
+Welche Prüfungsleistung prädiziert das Modell für eine Prüfungsangst von `r x`?
+
+
+Solution
+========
+Die gesuchte Prüfungsleistung erhalten Sie durch Einsetzen der gegebenen Parameter in die Gleichung, wobei sie das $\epsilon_i$ gleich 0 setzen, da Sie den "modellgemäßen Wert" (also den Wert __auf__ der Regressionsgerade) suchen.
+
+_Prüfungsleistung~gesucht~ = `r b0` + `r b1` $\cdot$ `r x` + 0_  
+
+
+
+Meta-information
+================
+extype: num
+exsolution: `r b0+b1*x`
+exname: Regressionsgleichung anwenden
+extol: 0.1

@@ -1,0 +1,85 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r, Datengenese, echo = FALSE, message=FALSE}
+library(exams)
+
+x1 <- sample(c(0.1, 0.3, 0.7), 1)
+x3 <- sample(c(0.1, 0.3, 0.7), 1)
+z2 <- sample(c(0.1, 0.3, 0.7), 1)
+z3 <- sample(c(0.1, 0.3, 0.7), 1)
+
+i1 <- round(rnorm(1, 0, 0.05), 3)
+i2 <- round(rnorm(1, 0, 0.05), 3)
+i3 <- round(rnorm(1, 0, 0.05), 3)
+
+answer1_solution <- x1 == x3 & z2 == z3
+answer2_solution <- z3 < z2
+answer3_solution <- x3 < x1
+answer4_solution <- x3 > x1
+answer5_solution <- z3 > z2
+
+solution <- c(answer1_solution,
+              answer2_solution,
+              answer3_solution,
+              answer4_solution,
+              answer5_solution)
+```
+
+
+Question
+========
+Gegeben sei die folgende Tabelle, die je Spalte die Koeffizienten eines Regressionmodelles enthält. Jedes Modell beinhaltet _dieselbe abhängige Variable_.
+
+
+| Prädiktoren | Modell 1 | Modell 2 | Modell 3 |
+|-------------|:--------:|:--------:|:--------:|
+| X           |  `r x1`  |          |  `r x3`  |
+| Z           |          |  `r z2`  |  `r z3`  |
+| Intercept   |  `r i1`  |  `r i2`  |  `r i3`  |
+
+
+Bitte markieren Sie die korrekten Antworten.
+
+
+
+Answerlist
+----------
+* X und Z korrellieren nicht.
+* Der Zusammenhang zwischen Z und der abh. Variable ist durch X konfundiert.
+* Der Zusammenhang zwischen X und der abh. Variable ist durch Z konfundiert.
+* Z ist eine Supressorvariable.
+* X ist eine Supressorvariable 
+
+Solution
+========
+
+```{r, echo = FALSE, results = "asis"}
+answerlist(solution,
+           markup = "markdown")
+```
+
+
+
+
+
+
+Prüfen Sie:  
+
+* Gilt $b_{X_{Modell\;1}} = b_{X_{Modell\;3}}$ und $b_{2_{Modell\;2}} = b_{2_{Modell\;3}}$ $\rightarrow$ Antwort 1 richtig...
+* Gilt $b_{Z_{Modell\;3}} < b_{Z_{Modell\;2}}$ $\rightarrow$ Antwort 2 richtig...
+* Gilt $b_{X_{Modell\;3}} < b_{X_{Modell\;1}}$ $\rightarrow$ Antwort 3 richtig...
+* Gilt $b_{X_{Modell\;3}} > b_{X_{Modell\;1}}$ $\rightarrow$ Antwort 4 richtig...
+* Gilt $b_{Z_{Modell\;3}} > b_{Z_{Modell\;2}}$ $\rightarrow$ Antwort 5 richtig...
+
+Dabei meint $b_{X_{Modell\;1}}$ "den Regressionskoeffizient der Variable X im Modell 1" also hier `r x1`.
+
+
+Meta-information
+================
+exname: Konfounder und Suppressoren in Tabelle erkennen  
+extype: mchoice  
+exsolution: `r paste(as.numeric(solution), collapse = "")`  
+exshuffle: 5  

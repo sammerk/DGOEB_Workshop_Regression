@@ -1,0 +1,161 @@
+```{r, Datengenese, echo = FALSE, message=FALSE}
+library(exams)
+library(plotly)
+library(reshape2)
+
+# #load data
+# 
+# my_df <- iris
+# petal_lm <- lm(Petal.Length ~ Sepal.Length + Sepal.Width,data = my_df)
+# 
+# #Graph Resolution (more important for more complex shapes)
+# graph_reso <- 0.05
+# 
+# #Setup Axis
+# axis_x <- seq(min(my_df$Sepal.Length), max(my_df$Sepal.Length), by = graph_reso)
+# axis_y <- seq(min(my_df$Sepal.Width), max(my_df$Sepal.Width), by = graph_reso)
+# 
+# #Sample points
+# petal_lm_surface <- expand.grid(Sepal.Length = axis_x,Sepal.Width = axis_y,KEEP.OUT.ATTRS = F)
+# petal_lm_surface$Petal.Length <- predict.lm(petal_lm, newdata = petal_lm_surface)
+# petal_lm_surface <- acast(petal_lm_surface, Sepal.Width ~ Sepal.Length, value.var = "Petal.Length") #y ~ x
+# 
+# 
+# hcolors=c("red","blue","green")[my_df$Species]
+# iris_reg_plot <- plot_ly(my_df, 
+#                      x = ~Sepal.Length, 
+#                      y = ~Sepal.Width, 
+#                      z = ~Petal.Length,
+#                      type = "scatter3d", 
+#                      mode = "markers",
+#                      marker = list(size = 2, color = "#37414b", symbol = 104))%>%
+#               add_trace(
+#                        z = petal_lm_surface,
+#                        x = axis_x,
+#                        y = axis_y,
+#                        type = "surface",
+#                        opacity = 0.8,
+#                        contours = list(x = list(highlight = F),
+#                                        y = list(highlight = F),
+#                                        z = list(highlight = F)))
+# 
+# Sys.setenv("plotly_username"="sammerk")
+# Sys.setenv("plotly_api_key"="vUr1KH5Ok98C1lXTiWk1")
+# 
+# api_create(iris_reg_plot, filename = "iris_reg_plot")
+```
+
+
+Question
+========
+
+Gegeben sei die folgende Regressionsebene (welche Sie auch [hier verlinkt](https://plot.ly/~sammerk/1/) ist).  
+
+<iframe width="900" height="800" frameborder="0" scrolling="no" src="https://plot.ly/~sammerk/1.embed"></iframe>
+
+Welche der folgenden Regressionstabellen entspricht dieser interaktiven 3D-Darstellung?
+
+
+    
+    ===========================================================
+    Tabelle A                  Abhängige Variable:              
+                -----------------------------------------------
+                                 Petal.Length                  
+                      (1)             (2)               (3)    
+    -----------------------------------------------------------
+    Sepal.Length  - 1.858                            -1.776    
+                                                               
+    Sepal.Width                     1.735             1.339    
+                                                               
+    Intercept       7.101          -9.063             2.525     
+                                                               
+    ===========================================================
+    
+    ===========================================================
+    Tabelle B                  Abhängige Variable:              
+                -----------------------------------------------
+                                 Petal.Length                  
+                      (1)             (2)               (3)    
+    -----------------------------------------------------------
+    Sepal.Length    10.858                            10.776    
+                                                               
+    Sepal.Width                    -10.735           -10.339    
+                                                               
+    Intercept      -70.101          90.063          -20.525     
+                                                               
+    ===========================================================
+    
+    ===========================================================
+    Tabelle C                  Abhängige Variable:              
+                -----------------------------------------------
+                                 Petal.Length                  
+                      (1)             (2)               (3)    
+    -----------------------------------------------------------
+    Sepal.Length    1.858                             1.776    
+                                                               
+    Sepal.Width                    -1.735            -1.339    
+                                                               
+    Intercept      -7.101           9.063            -2.525     
+                                                               
+    ===========================================================
+    
+    ===========================================================
+    Tabelle D                  Abhängige Variable:              
+                -----------------------------------------------
+                                 Petal.Length                  
+                      (1)             (2)               (3)    
+    -----------------------------------------------------------
+    Sepal.Length    -7.101                            -2.525    
+                                                               
+    Sepal.Width                    9.063              -1.339    
+                                                               
+    Intercept        1.858        -1.735               1.776     
+                                                               
+    ===========================================================
+    
+    ===========================================================
+    Tabelle E                  Abhängige Variable:              
+                -----------------------------------------------
+                                 Petal.Length                  
+                      (1)             (2)               (3)    
+    -----------------------------------------------------------
+    Sepal.Length    .1858                             .1776    
+                                                               
+    Sepal.Width                    -.1735            -.1339    
+                                                               
+    Intercept      -.7101           .9063            -.2525     
+                                                               
+    ===========================================================
+    
+
+
+
+
+
+Answerlist
+----------
+* Tabelle A entspricht der gegebenen Regressionsebene.
+* Tabelle B entspricht der gegebenen Regressionsebene.
+* Tabelle C entspricht der gegebenen Regressionsebene.
+* Tabelle D entspricht der gegebenen Regressionsebene.
+* Tabelle E entspricht der gegebenen Regressionsebene.
+
+
+Solution
+========
+
+```{r, echo = FALSE, results = "asis"}
+answerlist(c(F,F,T,F,F),
+           markup = "markdown")
+```
+  
+\
+Eine Lösungsstrategie: Suchen Sie mit dem Hover-Effekt ("Maus auf Regressionsebene halten") "markante Punkte" auf der Ebene z.B. x = 5, y = 4, z = 0,999. Setzen Sie x, y sowie das Intercept in die Regressionsgleichungen, welche aus den Tabellen resultieren ein und überprüfen Sie bei welcher der z-Wert 0,999 auftaucht...
+
+
+Meta-information
+================
+exname: Regressionsgerade zu Term erkennen
+extype: schoice
+exsolution: `r paste(as.numeric(c(F,F,T,F,F)), collapse = "")`
+exshuffle: 5
